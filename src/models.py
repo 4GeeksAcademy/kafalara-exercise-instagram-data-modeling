@@ -12,8 +12,8 @@ class Post(Base):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
     user = relationship('User', back_populates='posts')
-    comments = relationship('Comment', back_populates='post.id')
-    media = relationship('Media', back_populates='post.id')
+    comments = relationship('Comment', back_populates='post')
+    media = relationship('Media', back_populates='post')
 
 class User(Base):
     __tablename__='user'
@@ -50,8 +50,8 @@ class Follower(Base):
     __tablename__ = 'follower'
     user_from_id = Column(Integer, ForeignKey('user.id'), primary_key=True)
     user_to_id = Column(Integer, ForeignKey('user.id'), primary_key=True)
-    follower = relationship('User', foreign_keys=[user_from_id], back_populates='following')
-    followed = relationship('User', foreign_keys=[user_to_id], back_populates='followers')
+    user_follower = relationship('User', foreign_keys=[user_from_id], back_populates='following')
+    user_followed = relationship('User', foreign_keys=[user_to_id], back_populates='followers')
      
 
     def to_dict(self):
